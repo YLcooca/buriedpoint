@@ -25,36 +25,40 @@ def build_windows(platform="x64", config="Release", args=None):
 
     # 如果--test，则打开BUILD_BURIED_TEST开关
     if args.test:
-        build_cmd += "-DBUILD_BURIED_EXAMPLES=ON "
+        build_cmd += "-DBUILD_BURIED_TEST=ON "
     # 如果--example，则打开BUILD_BURIED_EXAMPLES开关
     if args.example:
         build_cmd += "-DBUILD_BURIED_EXAMPLES=ON "
-    
+
     print("build cmd:" + build_cmd)
     ret = os.system(build_cmd)
 
     if ret != 0:
         print("build fail!")
         return False
-    
+
     # 构建
-    build_cmd = "cmake --build . --config %s --paraller 8" % (config)
+    build_cmd = "cmake --build . --config %s --parallel 8" % (config)
     ret = os.system(build_cmd)
     if ret != 0:
         print("build fail!!")
         return False
     return True
 
+
 def main():
     clear()
     os.makedirs(BUILD_DIR_PATH, exist_ok=True)
     parser = argparse.ArgumentParser(description="build windows")
-    parser.add_argument("--test", action="store_true", default=False, help="run unittest")
-    parser.add_argument("--example", action="store_true", default=False, help="run examples")
+    parser.add_argument("--test", action="store_true",
+                        default=False, help="run unittest")
+    parser.add_argument("--example", action="store_true",
+                        default=False, help="run examples")
     args = parser.parse_args()
 
     if not build_windows(platform='x64', config="Debug", args=args):
         exit(1)
+
 
 if __name__ == "__main__":
     main()

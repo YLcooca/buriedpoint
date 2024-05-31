@@ -19,11 +19,11 @@ option(BUILD_BURIED_EXAMPLES "build examples" OFF)
 # 定义开关，表示是否编译单元测试程序
 option(BUILD_BURIED_TEST "build unittest" OFF)
 
-# ?
+# 开启多线程编译
 option(BUILD_BURIED_FOR_MT "build for /MT" OFF)
 
 # MSVC 编译专用的配置，表示启动多线程编译，如果在Linux在，需要注释掉
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}/MP")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
 
 # ??
 if(BUILD_BURIED_FOR_MT)
@@ -37,16 +37,16 @@ endif()
 set(LIBS ${LIBS} winmm iphlpapi ws2_32 dbghelp Kernel32)
 
 # generate pdb file
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}/Zi")
-set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE}/Zi")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi")
+set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /Zi")
 set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} /DEBUG /OPT:REF /OPT:ICF")
 
 set(INCDIRS . lib ${CMAKE_BINARY_DIR})
 include_directories(${INCDIRS})
 
 # 表示启用C++20标准和C11标准
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}/std:c++20")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}/std:c11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++20")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /std:c11")
 
 # 打印信息
 message(STATUS "CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}")
